@@ -7,6 +7,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  Dimensions
 } from 'react-native';
 import Card from '../components/Card';
 import CustomBoldText from '../components/CustomBoldText';
@@ -117,8 +118,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inputContainer: {
-    width: 300,
-    maxWidth: '80%',
+    width: '80%',
+    maxWidth: '95%',
+    minWidth: 300,
     alignItems: 'center',
   },
   buttonContainer: {
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    width: 100,
+    width: Dimensions.get('window').width/4
   },
   summaryContainer:{
       margin:20,
