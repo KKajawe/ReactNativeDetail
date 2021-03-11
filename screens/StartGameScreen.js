@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Alert,
   Button,
@@ -7,7 +7,9 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView
 } from 'react-native';
 import Card from '../components/Card';
 import CustomBoldText from '../components/CustomBoldText';
@@ -20,6 +22,18 @@ const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setselectedNumber] = useState();
+  const [buttonWidth, setButtonWidth] = useState(Dimensions.get('window').width/4)
+
+  useEffect(() => {
+    const updateButtonWidth = ()=>{
+      setButtonWidth(Dimensions.get('window').width/4);
+    }
+    Dimensions.addEventListener('change', updateButtonWidth)
+    return () => {
+      Dimensions.removeEventListener('change', updateButtonWidth)
+    }
+  });
+  
   const numberInputHandler = (inputText) => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ''));
   };
@@ -61,6 +75,8 @@ const StartGameScreen = (props) => {
     );
   }
   return (
+    <ScrollView>
+    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={30}>
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
@@ -77,7 +93,7 @@ const StartGameScreen = (props) => {
             onChangeText={numberInputHandler}
           />
           <View style={styles.buttonContainer}>
-            <View style={styles.button}>
+            <View style={{ width: buttonWidth}}>
               <Button
                 title="RESET"
                 onPress={() => {
@@ -87,7 +103,7 @@ const StartGameScreen = (props) => {
                 color={colors.accent}
               />
             </View>
-            <View style={styles.button}>
+            <View style={{ width: buttonWidth}}>
               <Button
                 title="CONFIRM"
                 onPress={confirmInputHandler}
@@ -99,6 +115,8 @@ const StartGameScreen = (props) => {
         {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
